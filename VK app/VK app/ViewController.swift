@@ -8,8 +8,13 @@
 
 import UIKit
 
+var login = ""
+var password = ""
+
 class ViewController: UIViewController {
     
+    @IBOutlet weak var button: UIButton!
+    @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var loginTextField: UITextField!
     @IBOutlet weak var pwdTextField: UITextField!
     @IBOutlet weak var scrollView: UIScrollView!
@@ -18,8 +23,8 @@ class ViewController: UIViewController {
         
     }
     
-    
-    
+    @IBOutlet weak var trigger: UISegmentedControl!
+        
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -40,9 +45,16 @@ class ViewController: UIViewController {
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        if loginTextField.text == "Uzver" && pwdTextField.text == "Parol" {
+        if trigger.selectedSegmentIndex == 0 && loginTextField.text == login && pwdTextField.text == password && login != "" && password != "" {
+            errorLabel.text = ""
             return true
+        } else if trigger.selectedSegmentIndex == 1 {
+            password = pwdTextField.text ?? ""
+            login = loginTextField.text ?? ""
+            errorLabel.text = "Пользователь зарегистрирован"
+            return false
         }
+        errorLabel.text = "Введены неверные данные"
         return false
     }
 
